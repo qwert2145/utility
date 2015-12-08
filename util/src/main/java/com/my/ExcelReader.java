@@ -26,9 +26,9 @@ public class ExcelReader {
     /**
      *
      * @method ：readExcelTitle<br>
-     * @describe ：读�? Excel 文件<br>
+     * @describe ：读取 Excel 文件<br>
      * @author ：wanglongjie<br>
-     * @createDate �?2015�?8�?31日下�?2:41:25 <br>
+     * @createDate ：2015年8月31日下午2:41:25 <br>
      * @param fileName
      *            ：Excel 文件路径
      * @return String[]
@@ -64,9 +64,9 @@ public class ExcelReader {
     /**
      *
      * @method ：readExcelContent<br>
-     * @describe ：读�? Excel 内容<br>
+     * @describe ：读取 Excel 内容<br>
      * @author ：wanglongjie<br>
-     * @createDate �?2015�?8�?31日下�?3:12:06 <br>
+     * @createDate ：2015年8月31日下午3:12:06 <br>
      * @param fileName
      *            ：Excel 文件路径
      * @return List<Map<String,String>>
@@ -92,15 +92,15 @@ public class ExcelReader {
             e.printStackTrace();
         }
         sheet = wb.getSheetAt(0);
-        int rowNum = sheet.getLastRowNum();// 得到总行�?
+        int rowNum = sheet.getLastRowNum();// 得到总行数
         row = sheet.getRow(0);
         int colNum = row.getPhysicalNumberOfCells();
         String titles[] = readExcelTitle(fileName);
-        // 正文内容应该从第二行�?�?,第一行为表头的标�?
+        // 正文内容应该从第二行开始,第一行为表头的标题
         for (int i = 1; i <= rowNum; i++) {
             int j = 0;
             row = sheet.getRow(i);
-            content = new LinkedHashMap<String,String>();
+            content = new LinkedHashMap<String, String>();
             do {
                 content.put(titles[j], getCellFormatValue(row.getCell(j))
                         .trim());
@@ -127,23 +127,23 @@ public class ExcelReader {
                 case Cell.CELL_TYPE_FORMULA: {
                     // 判断当前的cell是否为Date
                     if (HSSFDateUtil.isCellDateFormatted(cell)) {
-                        // 方法2：这样子的data格式是不带带时分秒的�?2011-10-12
+                        // 方法2：这样子的data格式是不带带时分秒的：2011-10-12
                         Date date = cell.getDateCellValue();
                         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
                         cellvalue = sdf.format(date);
                     } else {
-                        // 如果是纯数字取得当前Cell的数�?
+                        // 如果是纯数字取得当前Cell的数值
                         cellvalue = String.valueOf(cell.getNumericCellValue());
                     }
                     break;
                 }
                 // 如果当前Cell的Type为STRIN
                 case Cell.CELL_TYPE_STRING:
-                    // 取得当前的Cell字符�?
+                    // 取得当前的Cell字符串
                     cellvalue = cell.getRichStringCellValue().getString();
                     break;
                 default:
-                    // 默认的Cell�?
+                    // 默认的Cell值
                     cellvalue = " ";
             }
         } else {
