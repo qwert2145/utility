@@ -52,7 +52,7 @@ public class FileWriteRead {
     }
 
     void writeFile() throws IOException {
-        File f = new File("d:/ftptest/a.txt");
+        File f = new File("d:/ftptest/a.csv");
         FileOutputStream fop = new FileOutputStream(f);
         // 构建FileOutputStream对象,文件不存在会自动新建
         OutputStreamWriter writer = new OutputStreamWriter(fop, "UTF-8");

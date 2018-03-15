@@ -154,7 +154,7 @@ public class ExcelReader {
     }
 
     public static void main(String[] args) {
-        String file = "D:\\document\\test1.xlsx";
+        String file = "D:\\ziptest\\zy1.xlsx";
         List<Map<String, String>> list = ExcelReader.readExcelContent(file);
         Map<String, String> map = null;
         for (int i = 0; i < list.size(); i++) {

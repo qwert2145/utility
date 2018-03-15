@@ -17,4 +17,14 @@ public class PropertyUtil {
 
         int pageSize = Integer.parseInt(prop.getProperty("pageSize"));
     }
+
+    public static String getValue(String name){
+        Properties prop = new Properties();
+        try {
+            prop.load(PropertyUtil.class.getClassLoader().getResourceAsStream("mail.properties"));
+        } catch (IOException e) {
+//            LOGGER.error(e.getMessage());
+        }
+        return prop.getProperty(name);
+    }
 }
