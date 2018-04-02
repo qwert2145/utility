@@ -32,7 +32,10 @@ public class MailUtilService {
         mailMessage.setTo(toAddress);
         mailMessage.setFrom(PropertyUtil.getValue("mail.sender.user"));
         mailMessage.setSubject(name);
-        mailMessage.setText("test mail");
+
+        StringBuilder stringBuilder = new StringBuilder("lBorrowIntentId");
+        stringBuilder.append("strLoanAcctNo");
+        mailMessage.setText(stringBuilder.toString());
         //发送用户/密码
         mailSender.setUsername(PropertyUtil.getValue("mail.sender.user"));
         mailSender.setPassword(PropertyUtil.getValue("mail.sender.password"));
@@ -70,8 +73,8 @@ public class MailUtilService {
         //附件
         messageHelper.addAttachment(filename, file);
 
-        senderImpl.setUsername((String)PropertyUtil.getValue("mail.sender.user"));
-        senderImpl.setPassword((String)PropertyUtil.getValue("mail.sender.password"));
+        senderImpl.setUsername(PropertyUtil.getValue("mail.sender.user"));
+        senderImpl.setPassword(PropertyUtil.getValue("mail.sender.password"));
         Properties prop = new Properties();
         // 将这个参数设为true，让服务器进行认证,认证用户名和密码是否正确
         prop.put("mail.smtp.auth", "true");
@@ -85,6 +88,6 @@ public class MailUtilService {
 
     public static void main(String[] args) {
         MailUtilService mailUtilService = new MailUtilService();
-        mailUtilService.sendSimpleMessage("df","wanglibin@dafy.com");
+        mailUtilService.sendSimpleMessage("隔日通知未成功数据","wanglibin@dafy.com");
     }
 }

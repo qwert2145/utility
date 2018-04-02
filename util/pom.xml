@@ -121,5 +121,11 @@
       <artifactId>cdoframework</artifactId>
       <version>7.2.4</version>
     </dependency>
+
+    <dependency>
+      <groupId>commons-net</groupId>
+      <artifactId>commons-net</artifactId>
+      <version>3.3</version>
+    </dependency>
   </dependencies>
 </project>
