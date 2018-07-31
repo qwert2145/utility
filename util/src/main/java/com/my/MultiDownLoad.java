@@ -11,17 +11,20 @@ import java.util.concurrent.TimeUnit;
 public class MultiDownLoad {
 
     private ThreadPoolExecutor executor;
+    private int corePoolSize;
+    private int maxPoolSize;
 
-    public MultiDownLoad() {
-        executor = new ThreadPoolExecutor(4, 4,60, TimeUnit.SECONDS,new LinkedBlockingQueue<Runnable>());
+    public MultiDownLoad(int corSize,int maxSize) {
+        this.corePoolSize = corSize;
+        this.maxPoolSize = maxSize;
+        executor = new ThreadPoolExecutor(corePoolSize,maxPoolSize,60, TimeUnit.SECONDS,new LinkedBlockingQueue<Runnable>());
     }
 
     void start(){
         System.out.println("start-----");
-        executor.execute(new TaskProcessor(1));
-        executor.execute(new TaskProcessor(2));
-        executor.execute(new TaskProcessor(3));
-        executor.execute(new TaskProcessor(4));
+        for(int i= 1;i<=corePoolSize;i++){
+            executor.execute(new TaskProcessor(i));
+        }
     }
 
     void stop() throws InterruptedException {
@@ -31,7 +34,7 @@ public class MultiDownLoad {
             int i =0 ;
             do {
                 //等待所有任务完成
-                loop = !executor.awaitTermination(2, TimeUnit.SECONDS);  //阻塞，直到线程池里所有任务结束
+                loop = !executor.awaitTermination(2, TimeUnit.MINUTES);  //阻塞，直到线程池里所有任务结束
                 i++;
                 System.out.println(i + "times");
             } while(loop);
@@ -46,15 +49,9 @@ public class MultiDownLoad {
         TaskProcessor(int fileNum){
             this.fileNum = fileNum;
         }
-
         public void run() {
             String file = "D:\\ftptest\\contract" +fileNum + ".txt";
             System.out.println("contract file:---" + file);
-            try {
-                Thread.sleep(10*1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
 //            readFileByLines(file,"contract");
         }
     }
@@ -140,7 +137,7 @@ public class MultiDownLoad {
     }
 
     public static void main(String[] args) throws InterruptedException {
-        MultiDownLoad multiDownLoad = new MultiDownLoad();
+        MultiDownLoad multiDownLoad = new MultiDownLoad(4,4);
         multiDownLoad.start();
         multiDownLoad.stop();
     }
