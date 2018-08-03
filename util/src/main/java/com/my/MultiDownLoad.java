@@ -4,37 +4,39 @@ import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.methods.GetMethod;
 
 import java.io.*;
-import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 
 public class MultiDownLoad {
 
-    private ThreadPoolExecutor executor;
+    private ThreadPoolExecutor poolExecutor;
     private int corePoolSize;
     private int maxPoolSize;
+
+    private ExecutorService executor;
 
     public MultiDownLoad(int corSize,int maxSize) {
         this.corePoolSize = corSize;
         this.maxPoolSize = maxSize;
-        executor = new ThreadPoolExecutor(corePoolSize,maxPoolSize,60, TimeUnit.SECONDS,new LinkedBlockingQueue<Runnable>());
+        poolExecutor = new ThreadPoolExecutor(corePoolSize,maxPoolSize,60, TimeUnit.SECONDS,new LinkedBlockingQueue<Runnable>());
+
+//        executor = Executors.newFixedThreadPool(maxPoolSize);
     }
 
     void start(){
         System.out.println("start-----");
-        for(int i= 1;i<=corePoolSize;i++){
-            executor.execute(new TaskProcessor(i));
+        for(int i= 1;i<=maxPoolSize;i++){
+            poolExecutor.execute(new TaskProcessor(i));
         }
     }
 
     void stop() throws InterruptedException {
-        executor.shutdown();//只是不能再提交新任务，等待执行的任务不受影响
+        poolExecutor.shutdown();//只是不能再提交新任务，等待执行的任务不受影响
         try {
             boolean loop = true;
             int i =0 ;
             do {
                 //等待所有任务完成
-                loop = !executor.awaitTermination(2, TimeUnit.MINUTES);  //阻塞，直到线程池里所有任务结束
+                loop = !poolExecutor.awaitTermination(2, TimeUnit.MINUTES);  //阻塞，直到线程池里所有任务结束
                 i++;
                 System.out.println(i + "times");
             } while(loop);
@@ -49,6 +51,7 @@ public class MultiDownLoad {
         TaskProcessor(int fileNum){
             this.fileNum = fileNum;
         }
+
         public void run() {
             String file = "D:\\ftptest\\contract" +fileNum + ".txt";
             System.out.println("contract file:---" + file);
