@@ -117,12 +117,6 @@
     </dependency>
 
     <dependency>
-      <groupId>com.cdoframework</groupId>
-      <artifactId>cdoframework</artifactId>
-      <version>7.2.4</version>
-    </dependency>
-
-    <dependency>
       <groupId>commons-net</groupId>
       <artifactId>commons-net</artifactId>
       <version>3.3</version>
@@ -131,6 +125,12 @@
       <groupId>commons-httpclient</groupId>
       <artifactId>commons-httpclient</artifactId>
       <version>3.0.1</version>
+    </dependency>
+
+    <dependency>
+      <groupId>com.google.guava</groupId>
+      <artifactId>guava</artifactId>
+      <version>20.0</version>
     </dependency>
   </dependencies>
 </project>

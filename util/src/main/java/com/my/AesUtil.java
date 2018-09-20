@@ -1,6 +1,5 @@
 package com.my;
 
-import com.cdoframework.cdolib.security.Base64;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 
 import javax.crypto.Cipher;
